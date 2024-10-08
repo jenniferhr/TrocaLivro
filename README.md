@@ -1,5 +1,9 @@
 # 📚 TrocaLivro - Book Exchange API
 Welcome to **TrocaLivro**! This is an API for a platform where users can trade books with each other, promoting sustainable reading habits and community engagement through sharing. 🚀
+<p align="center">
+  <img align="center" src="https://github.com/user-attachments/assets/12c62a7f-bf11-4a97-943b-89cef436b981"/>
+</p>
+
 
 ## 📝 Project Description
 **TrocaLivro** allows users to:
