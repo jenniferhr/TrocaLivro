@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diretório de dependências do npm
+node_modules
+
+# Diretório de saída da compilação
+dist/
+build/
+out/
+outside/
+
+# Arquivos de ambiente
+.env
+
+# Cache do npm
+.npm/
+
+# Diretórios de cache de test runners
+jest/
+coverage/
+
+# Diretórios do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração de editores/IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Arquivos TypeScript
+*.tsbuildinfo
+
