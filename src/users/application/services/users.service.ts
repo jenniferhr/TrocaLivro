@@ -4,24 +4,24 @@ import { CreateUserCommand } from '../commands/create-user.command';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserCommand) {
+  async create(createUserDto: CreateUserCommand) {
     const { fullName, email, phoneNumber, address } = createUserDto;
     return 'This action adds a new user';
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }
