@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { TypeOrmUserPersistenceModule } from '../infrastructure/persistence/typeorm/typeorm-persistence.module';
+import { TypeOrmUserPersistenceModule } from '../../infrastructure/persistence/typeorm/typeorm-persistence.module';
 import { ApplicationBootstrapOptions } from '../interfaces/application-bootstrap-options.interface';
 
 @Module({})
