@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module, Type } from '@nestjs/common';
 import { UsersService } from 'src/users/application/services/users.service';
 import { UsersController } from 'src/users/http-server/controllers/users.controller';
 
@@ -6,4 +6,11 @@ import { UsersController } from 'src/users/http-server/controllers/users.control
   controllers: [UsersController],
   providers: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule {
+  static withInfrastructure(infrastructureModule: Type | DynamicModule) {
+    return {
+      module: UsersModule,
+      imports: [infrastructureModule],
+    };
+  }
+}
