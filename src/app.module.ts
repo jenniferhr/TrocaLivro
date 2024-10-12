@@ -5,7 +5,7 @@ import { HealthModule } from './health/infrastructure/modules/health.module';
 import { UsersModule } from './infrastructure/modules/users.module';
 import { ApplicationBootstrapOptions } from './users/interfaces/application-bootstrap-options.interface';
 import { CoreModule } from './users/core/core.module';
-import { UserInfrastructureModule } from './infrastructure/persistence/aluno-infrastructure.module';
+import { UserInfrastructureModule } from './infrastructure/persistence/user-infrastructure.module';
 
 @Module({
   imports: [HealthModule, CoreModule],
