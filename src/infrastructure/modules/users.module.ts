@@ -1,16 +1,13 @@
-import { DynamicModule, Module, Type } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from '../persistence/typeorm/entities/user.entity';
 import { UsersService } from 'src/users/application/services/users.service';
 import { UsersController } from 'src/users/http-server/controllers/users.controller';
 
 @Module({
-  controllers: [UsersController],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   providers: [UsersService],
+  controllers: [UsersController],
+  exports: [UsersService],
 })
-export class UsersModule {
-  static withInfrastructure(infrastructureModule: Type | DynamicModule) {
-    return {
-      module: UsersModule,
-      imports: [infrastructureModule],
-    };
-  }
-}
+export class UsersModule {}
