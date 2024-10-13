@@ -25,24 +25,6 @@ export class BookEntity {
   })
   author: string;
 
-  @Column({
-    name: 'condition',
-    nullable: false,
-  })
-  condition: string;
-
-  @Column({
-    name: 'available',
-    nullable: false,
-  })
-  available: string;
-
-  @Column({
-    name: 'comment',
-    nullable: true,
-  })
-  comment?: string;
-
   @CreateDateColumn({
     name: 'created_at',
     nullable: false,

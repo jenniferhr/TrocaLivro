@@ -1,11 +1,4 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
-import { BookConditionEnum } from 'src/books/domain/enums/book-condition.enum';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateBookDto {
   @IsNotEmpty()
@@ -17,13 +10,4 @@ export class CreateBookDto {
   @IsString()
   @Length(1, 255)
   author: string;
-
-  @IsNotEmpty()
-  @IsEnum(BookConditionEnum)
-  condition: BookConditionEnum;
-
-  @IsOptional()
-  @IsString()
-  @Length(1, 1000)
-  comment?: string;
 }
