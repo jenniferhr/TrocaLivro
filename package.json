@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "up": "docker-compose up",
+    "typeorm": "ts-node -r tsconfig-paths/register --transpile-only ./node_modules/.bin/typeorm -d src/infrastructure/persistence/typeorm/typeOrm.config.ts",
+    "migration:generate": "npx ts-node -r tsconfig-paths/register --transpile-only ./node_modules/typeorm/cli.js migration:generate -d src/infrastructure/persistence/typeorm/typeOrm.config.ts src/infrastructure/persistence/typeorm/migrations/%npm_config_name%",
+    "migration:create": "npx ts-node -r tsconfig-paths/register --transpile-only ./node_modules/typeorm/cli.js migration:create src/infrastructure/persistence/typeorm/migrations/%npm_config_name%",
+    "migration:run": "npx ts-node -r tsconfig-paths/register --transpile-only ./node_modules/typeorm/cli.js -d src/infrastructure/persistence/typeorm/typeOrm.config.ts migration:run",
+    "migration:revert": "npx ts-node -r tsconfig-paths/register --transpile-only typeorm migration:revert -d src/infrastructure/persistence/typeorm/typeOrm.config.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.3",
@@ -26,9 +32,15 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/terminus": "^10.2.3",
+    "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.7.7",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
