@@ -50,7 +50,7 @@ export class BooksService {
     return this.bookRepository.findOne({ where: { id } });
   }
 
-  async findByTitleAndAuthor(title: string, author?: string) {
+  async findByTitleAndAuthor(title: string, author: string) {
     const existingBook = await this.bookRepository.findOne({
       where: { title, author },
     });

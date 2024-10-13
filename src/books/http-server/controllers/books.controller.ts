@@ -10,13 +10,14 @@ import {
 import { BooksService } from '../../application/services/books.service';
 import { CreateBookDto } from '../dto/create-book.dto';
 import { UpdateBookDto } from '../dto/update-book.dto';
+import { FindBookByTitleAndAuthorDto } from '../dto/find-book-by-title-and-author.dto';
 
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Post()
-  async add(@Body() createBookDto: CreateBookDto) {
+  async create(@Body() createBookDto: CreateBookDto) {
     return await this.booksService.create(createBookDto);
   }
 
@@ -28,6 +29,13 @@ export class BooksController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.booksService.findById(+id);
+  }
+
+  async findByTitleAndAuthor(@Body() findBookDto: FindBookByTitleAndAuthorDto) {
+    return await this.booksService.findByTitleAndAuthor(
+      findBookDto.title,
+      findBookDto.author,
+    );
   }
 
   @Patch(':id')
