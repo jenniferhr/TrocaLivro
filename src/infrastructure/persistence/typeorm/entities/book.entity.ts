@@ -8,24 +8,50 @@ import {
 
 @Entity('books')
 export class BookEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    type: 'bigint',
+  })
   id: number;
 
-  @Column()
+  @Column({
+    name: 'title',
+    nullable: false,
+  })
   title: string;
 
-  @Column()
+  @Column({
+    name: 'author',
+    nullable: false,
+  })
   author: string;
 
-  @Column()
+  @Column({
+    name: 'condition',
+    nullable: false,
+  })
   condition: string;
 
-  @Column()
+  @Column({
+    name: 'available',
+    nullable: false,
+  })
   available: string;
 
-  @CreateDateColumn()
+  @Column({
+    name: 'comment',
+    nullable: true,
+  })
+  comment?: string;
+
+  @CreateDateColumn({
+    name: 'created_at',
+    nullable: false,
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+    nullable: false,
+  })
   updatedAt: Date;
 }
