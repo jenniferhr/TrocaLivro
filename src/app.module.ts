@@ -5,12 +5,14 @@ import { AppService } from './app.service';
 import { dataSourceOptions } from './infrastructure/persistence/typeorm/typeOrm.config';
 import { HealthModule } from './infrastructure/modules/health.module';
 import { UsersModule } from './infrastructure/modules/users.module';
+import { BooksModule } from './infrastructure/modules/books.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
     HealthModule,
     UsersModule,
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

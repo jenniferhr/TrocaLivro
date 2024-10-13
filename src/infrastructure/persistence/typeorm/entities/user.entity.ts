@@ -30,7 +30,4 @@ export class UserEntity {
     nullable: false,
   })
   address: string;
-
-  @Column('json', { name: 'books', nullable: true })
-  books: Array<object>;
 }
