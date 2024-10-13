@@ -32,7 +32,6 @@ export class UsersService {
     user.email = email;
     user.phoneNumber = phoneNumber;
     user.address = address;
-    user.books = [];
 
     try {
       const savedUser = await this.userRepository.save(user);

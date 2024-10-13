@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { BookEntity } from './book.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
@@ -37,8 +30,4 @@ export class UserEntity {
     nullable: false,
   })
   address: string;
-
-  @ManyToMany(() => BookEntity)
-  @JoinTable() // Isso cria a tabela de junção
-  books: BookEntity[];
 }
