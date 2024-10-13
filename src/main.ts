@@ -3,11 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(
-    AppModule.register({
-      driver: 'typeorm',
-    }),
-  );
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: false, // Retorna 404 se o payload não atender as regras do DTO
