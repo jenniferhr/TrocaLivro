@@ -8,14 +8,12 @@ import { CreateUserCommand } from '../commands/create-user.command';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserMapper } from 'src/infrastructure/persistence/typeorm/mappers/user.mapper';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly userMapper: UserMapper,
   ) {}
 
   async create(createUserCommand: CreateUserCommand) {
