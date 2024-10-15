@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UsersService } from '../../application/services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -81,20 +82,24 @@ export class UsersController {
   }
 
   @Get('books/:userBookId')
-  async findByUserBookId(@Param('userBookId') userBookId: string) {
+  async findByUserBookId(
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
+  ) {
     return this.userBooksService.findOnebyUserBookId(userBookId);
   }
 
   @Patch('books/:userBookId')
   async updateUserBook(
-    @Param('userBookId') userBookId: string,
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
     @Body() updateUserBookDto: UpdateUserBookDto,
   ) {
     return this.userBooksService.updateUserBook(userBookId, updateUserBookDto);
   }
 
   @Delete('books/:userBookId')
-  async removeUserBook(@Param('userBookId') userBookId: string) {
+  async removeUserBook(
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
+  ) {
     return this.userBooksService.removeUserBook(userBookId);
   }
 }

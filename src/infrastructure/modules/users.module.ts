@@ -5,9 +5,10 @@ import { UsersService } from 'src/users/application/services/users.service';
 import { UsersController } from 'src/users/http-server/controllers/users.controller';
 import { UserBooksService } from 'src/users/application/services/user-books.service';
 import { UserBookEntity } from '../persistence/typeorm/entities/user-book.entity';
+import { BookEntity } from '../persistence/typeorm/entities/book.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, UserBookEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, UserBookEntity, BookEntity])],
   providers: [UsersService, UserBooksService],
   controllers: [UsersController],
   exports: [UsersService],
