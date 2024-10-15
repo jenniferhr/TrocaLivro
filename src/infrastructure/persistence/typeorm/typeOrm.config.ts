@@ -11,6 +11,7 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: true,
   migrations: [`${__dirname}/migrations/*.{ts,js}`],
   entities: [`${__dirname}/entities/*.{ts,js}`],
+  migrationsRun: true,
 };
 
 export default new DataSource(dataSourceOptions);
