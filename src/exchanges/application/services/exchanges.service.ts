@@ -83,7 +83,14 @@ export class ExchangesService {
   async findAllExchanges() {
     try {
       const exchanges = await this.exchangeRepository.find({
-        relations: ['offeredUserBook', 'requestedUserBook'],
+        relations: [
+          'offeredUserBook',
+          'offeredUserBook.user',
+          'offeredUserBook.book',
+          'requestedUserBook',
+          'requestedUserBook.user',
+          'requestedUserBook.book',
+        ],
       });
 
       return exchanges;
@@ -96,7 +103,14 @@ export class ExchangesService {
     try {
       const exchange = await this.exchangeRepository.findOne({
         where: { id: exchangeId },
-        relations: ['offeredUserBook', 'requestedUserBook'],
+        relations: [
+          'offeredUserBook',
+          'offeredUserBook.user',
+          'offeredUserBook.book',
+          'requestedUserBook',
+          'requestedUserBook.user',
+          'requestedUserBook.book',
+        ],
       });
 
       if (!exchange) {
