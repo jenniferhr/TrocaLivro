@@ -5,11 +5,13 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  Query,
+  ParseUUIDPipe,
+  ParseEnumPipe,
 } from '@nestjs/common';
 import { ExchangesService } from '../../application/services/exchanges.service';
 import { CreateExchangeDto } from '../dto/create-exchange.dto';
-import { UpdateExchangeDto } from '../dto/update-exchange.dto';
+import { ExchangeStatusEnum } from 'src/exchanges/domain/enums/exchange-status.enum';
 
 @Controller('exchanges')
 export class ExchangesController {
@@ -17,29 +19,29 @@ export class ExchangesController {
 
   @Post()
   create(@Body() createExchangeDto: CreateExchangeDto) {
-    return this.exchangesService.create(createExchangeDto);
+    try {
+      return this.exchangesService.createExchangeRequest(createExchangeDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get()
   findAll() {
-    return this.exchangesService.findAll();
+    return this.exchangesService.findAllExchanges();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.exchangesService.findOne(+id);
+  @Get(':exchangeId')
+  findOne(@Param('exchangeId', new ParseUUIDPipe()) exchangeId: string) {
+    return this.exchangesService.findOneExchange(exchangeId);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateExchangeDto: UpdateExchangeDto,
+  @Patch(':exchangeId')
+  updateStatus(
+    @Param('exchangeId', new ParseUUIDPipe()) exchangeId: string,
+    @Query('status', new ParseEnumPipe(ExchangeStatusEnum))
+    status: ExchangeStatusEnum,
   ) {
-    return this.exchangesService.update(+id, updateExchangeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.exchangesService.remove(+id);
+    return this.exchangesService.updateExchangeStatus(exchangeId, status);
   }
 }
