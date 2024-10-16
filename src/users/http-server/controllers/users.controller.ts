@@ -71,7 +71,8 @@ export class UsersController {
   })
   @ApiOkResponse({
     description: 'Users retrieved successfully.',
-    type: Array<UserEntity>,
+    type: UserEntity,
+    isArray: true,
   })
   async findAll(): Promise<UserEntity[]> {
     return this.usersService.findAll();
@@ -159,7 +160,8 @@ export class UsersController {
   @ApiParam({ name: 'userId', description: 'The ID of the user' })
   @ApiOkResponse({
     description: 'Books retrieved successfully.',
-    type: Array<UserBookEntity>,
+    type: UserBookEntity,
+    isArray: true,
   })
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findAllUserBooks(@Param('userId') userId: string) {

@@ -51,7 +51,8 @@ export class ExchangesController {
   @ApiOperation({ summary: 'Retrieve all exchange requests' })
   @ApiOkResponse({
     description: 'List of exchange requests retrieved successfully.',
-    type: Array<ExchangeEntity>,
+    type: ExchangeEntity,
+    isArray: true,
   })
   findAll() {
     return this.exchangesService.findAllExchanges();

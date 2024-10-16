@@ -54,7 +54,8 @@ export class BooksController {
   })
   @ApiOkResponse({
     description: 'List of books retrieved successfully.',
-    type: Array<BookEntity>,
+    type: BookEntity,
+    isArray: true,
   })
   async findAll() {
     return await this.booksService.findAll();
