@@ -65,6 +65,7 @@ export class UserBookEntity {
   @ApiPropertyOptional({
     description: 'Optional comment about the book',
     example: 'The book is in excellent condition.',
+    required: false,
   })
   @Column({
     name: 'comment',

@@ -28,6 +28,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
+import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -46,7 +47,10 @@ export class UsersController {
     description: 'Details of the user to be created',
     type: CreateUserDto,
   })
-  @ApiCreatedResponse({ description: 'User created successfully.' })
+  @ApiCreatedResponse({
+    description: 'User created successfully.',
+    type: UserEntity,
+  })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiConflictResponse({ description: 'User with this email already exists.' })
   async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
@@ -65,7 +69,10 @@ export class UsersController {
     summary: 'Retrieve all users',
     description: 'Get a list of all users.',
   })
-  @ApiOkResponse({ description: 'Users retrieved successfully.' })
+  @ApiOkResponse({
+    description: 'Users retrieved successfully.',
+    type: Array<UserEntity>,
+  })
   async findAll(): Promise<UserEntity[]> {
     return this.usersService.findAll();
   }
@@ -76,7 +83,10 @@ export class UsersController {
     description: 'Retrieve a user by their ID.',
   })
   @ApiParam({ name: 'id', description: 'The ID of the user' })
-  @ApiOkResponse({ description: 'User retrieved successfully.' })
+  @ApiOkResponse({
+    description: 'User retrieved successfully.',
+    type: UserEntity,
+  })
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findOne(@Param('id') id: string): Promise<UserEntity> {
     return this.usersService.findOne(+id);
@@ -88,7 +98,10 @@ export class UsersController {
     description: 'Update the information of a specific user.',
   })
   @ApiParam({ name: 'id', description: 'The ID of the user' })
-  @ApiOkResponse({ description: 'User updated successfully.' })
+  @ApiOkResponse({
+    description: 'User updated successfully.',
+    type: UserEntity,
+  })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiNotFoundResponse({ description: 'User not found.' })
   async update(
@@ -121,7 +134,10 @@ export class UsersController {
     description: 'Details of the book to be added',
     type: CreateUserBookDto,
   })
-  @ApiCreatedResponse({ description: 'Book added to the user successfully.' })
+  @ApiCreatedResponse({
+    description: 'Book added to the user successfully.',
+    type: UserBookEntity,
+  })
   @ApiConflictResponse({ description: 'User already owns this book.' })
   @ApiNotFoundResponse({ description: 'Book or user not found.' })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
@@ -141,7 +157,10 @@ export class UsersController {
     description: 'Retrieve a list of books owned by a specific user.',
   })
   @ApiParam({ name: 'userId', description: 'The ID of the user' })
-  @ApiOkResponse({ description: 'Books retrieved successfully.' })
+  @ApiOkResponse({
+    description: 'Books retrieved successfully.',
+    type: Array<UserBookEntity>,
+  })
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findAllUserBooks(@Param('userId') userId: string) {
     return this.userBooksService.findAllByUserId(+userId);
@@ -154,7 +173,10 @@ export class UsersController {
   })
   @ApiParam({ name: 'userId', description: 'The ID of the user' })
   @ApiParam({ name: 'bookId', description: 'The ID of the book' })
-  @ApiOkResponse({ description: 'Book details retrieved successfully.' })
+  @ApiOkResponse({
+    description: 'Book details retrieved successfully.',
+    type: UserBookEntity,
+  })
   @ApiNotFoundResponse({ description: 'Book or user not found.' })
   async findOneUserBook(
     @Param('userId') userId: string,
@@ -170,7 +192,10 @@ export class UsersController {
       'Retrieve details of a specific book owned by a user using its unique ID.',
   })
   @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
-  @ApiOkResponse({ description: 'Book details retrieved successfully.' })
+  @ApiOkResponse({
+    description: 'Book details retrieved successfully.',
+    type: UserBookEntity,
+  })
   @ApiNotFoundResponse({ description: 'Book not found.' })
   async findByUserBookId(
     @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
@@ -184,7 +209,10 @@ export class UsersController {
     description: 'Update the details of a specific book owned by the user.',
   })
   @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
-  @ApiOkResponse({ description: "User's book updated successfully." })
+  @ApiOkResponse({
+    description: "User's book updated successfully.",
+    type: UserBookEntity,
+  })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiNotFoundResponse({ description: 'Book not found.' })
   async updateUserBook(
