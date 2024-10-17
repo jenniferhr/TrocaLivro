@@ -4,12 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateExchangeDto } from '../../http-server/dto/create-exchange.dto';
-import { ExchangeStatusEnum } from 'src/exchanges/domain/enums/exchange-status.enum';
-import { ExchangeEntity } from 'src/infrastructure/persistence/typeorm/entities/exchange.entity';
+import { ExchangeStatusEnum } from './../../../exchanges/domain/enums/exchange-status.enum';
+import { ExchangeEntity } from './../../../infrastructure/persistence/typeorm/entities/exchange.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
-import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
+import { UserBookEntity } from './../../../infrastructure/persistence/typeorm/entities/user-book.entity';
+import { BookAvailabilityEnum } from './../../../books/domain/enums/book-availability.enum';
 
 @Injectable()
 export class ExchangesService {

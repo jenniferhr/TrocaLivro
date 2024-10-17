@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { BookConditionEnum } from 'src/books/domain/enums/book-condition.enum';
+import { BookConditionEnum } from './../../../books/domain/enums/book-condition.enum';
 
 export class CreateUserBookDto {
   @ApiProperty({

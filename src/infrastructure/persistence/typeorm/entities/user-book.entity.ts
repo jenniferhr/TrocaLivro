@@ -10,8 +10,8 @@ import {
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { BookEntity } from './book.entity';
-import { BookConditionEnum } from 'src/books/domain/enums/book-condition.enum';
-import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
+import { BookConditionEnum } from './../../../../books/domain/enums/book-condition.enum';
+import { BookAvailabilityEnum } from './../../../../books/domain/enums/book-availability.enum';
 
 @Entity('user_books')
 export class UserBookEntity {

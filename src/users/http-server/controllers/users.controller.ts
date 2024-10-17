@@ -13,7 +13,7 @@ import { UsersService } from '../../application/services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { CreateUserCommand } from '../../application/commands/create-user.command';
-import { UserBooksService } from 'src/users/application/services/user-books.service';
+import { UserBooksService } from './../../../users/application/services/user-books.service';
 import { UpdateUserBookDto } from '../dto/update-user-book.dto';
 import { CreateUserBookDto } from '../dto/create-user-book.dto';
 import {
@@ -27,8 +27,8 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
-import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
+import { UserEntity } from './../../../infrastructure/persistence/typeorm/entities/user.entity';
+import { UserBookEntity } from './../../../infrastructure/persistence/typeorm/entities/user-book.entity';
 
 @ApiTags('users')
 @Controller('users')

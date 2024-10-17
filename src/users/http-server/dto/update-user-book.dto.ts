@@ -1,6 +1,6 @@
 import { IsOptional, IsEnum, IsString, ValidateIf } from 'class-validator';
-import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
-import { BookConditionEnum } from 'src/books/domain/enums/book-condition.enum';
+import { BookAvailabilityEnum } from './../../../books/domain/enums/book-availability.enum';
+import { BookConditionEnum } from './../../../books/domain/enums/book-condition.enum';
 
 export class UpdateUserBookDto {
   @IsOptional()

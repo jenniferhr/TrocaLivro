@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { UpdateUserDto } from '../../http-server/dto/update-user.dto';
 import { CreateUserCommand } from '../commands/create-user.command';
-import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
+import { UserEntity } from './../../../infrastructure/persistence/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 

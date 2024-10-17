@@ -6,7 +6,7 @@ import {
 import { CreateBookDto } from '../../http-server/dto/create-book.dto';
 import { UpdateBookDto } from '../../http-server/dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookEntity } from 'src/infrastructure/persistence/typeorm/entities/book.entity';
+import { BookEntity } from './../../../infrastructure/persistence/typeorm/entities/book.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

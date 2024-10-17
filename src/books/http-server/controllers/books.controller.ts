@@ -21,7 +21,7 @@ import { BooksService } from '../../application/services/books.service';
 import { CreateBookDto } from '../dto/create-book.dto';
 import { UpdateBookDto } from '../dto/update-book.dto';
 import { FindBookByTitleAndAuthorDto } from '../dto/find-book-by-title-and-author.dto';
-import { BookEntity } from 'src/infrastructure/persistence/typeorm/entities/book.entity';
+import { BookEntity } from './../../../infrastructure/persistence/typeorm/entities/book.entity';
 
 @ApiTags('books')
 @Controller('books')

@@ -1,4 +1,4 @@
-import { UserBook } from 'src/users/domain/user-book';
+import { UserBook } from './../../users/domain/user-book';
 
 export class Exchange {
   constructor(

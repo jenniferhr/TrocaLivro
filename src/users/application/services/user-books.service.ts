@@ -4,14 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
-import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
-import { CreateUserBookDto } from 'src/users/http-server/dto/create-user-book.dto';
-import { UpdateUserBookDto } from 'src/users/http-server/dto/update-user-book.dto';
+import { BookAvailabilityEnum } from './../../../books/domain/enums/book-availability.enum';
+import { UserBookEntity } from './../../../infrastructure/persistence/typeorm/entities/user-book.entity';
+import { CreateUserBookDto } from './../../../users/http-server/dto/create-user-book.dto';
+import { UpdateUserBookDto } from './../../../users/http-server/dto/update-user-book.dto';
 import { Repository } from 'typeorm';
 import { mapUserBookToResponse } from '../utils/user-book-response.mapper';
-import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
-import { BookEntity } from 'src/infrastructure/persistence/typeorm/entities/book.entity';
+import { UserEntity } from './../../../infrastructure/persistence/typeorm/entities/user.entity';
+import { BookEntity } from './../../../infrastructure/persistence/typeorm/entities/book.entity';
 
 @Injectable()
 export class UserBooksService {

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ExchangesService } from '../../application/services/exchanges.service';
 import { CreateExchangeDto } from '../dto/create-exchange.dto';
-import { ExchangeStatusEnum } from 'src/exchanges/domain/enums/exchange-status.enum';
+import { ExchangeStatusEnum } from './../../../exchanges/domain/enums/exchange-status.enum';
 import {
   ApiTags,
   ApiCreatedResponse,
@@ -22,7 +22,7 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import { ExchangeEntity } from 'src/infrastructure/persistence/typeorm/entities/exchange.entity';
+import { ExchangeEntity } from './../../../infrastructure/persistence/typeorm/entities/exchange.entity';
 
 @ApiTags('exchanges')
 @Controller('exchanges')

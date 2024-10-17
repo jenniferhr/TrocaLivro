@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserBookEntity } from './user-book.entity';
-import { ExchangeStatusEnum } from 'src/exchanges/domain/enums/exchange-status.enum';
+import { ExchangeStatusEnum } from './../../../../exchanges/domain/enums/exchange-status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('exchanges')

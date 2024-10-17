@@ -1,7 +1,7 @@
-import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
-import { BookConditionEnum } from 'src/books/domain/enums/book-condition.enum';
+import { BookAvailabilityEnum } from './../../books/domain/enums/book-availability.enum';
+import { BookConditionEnum } from './../../books/domain/enums/book-condition.enum';
 import { User } from './user';
-import { Book } from 'src/books/domain/book';
+import { Book } from './../../books/domain/book';
 
 export class UserBook {
   constructor(

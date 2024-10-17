@@ -1,4 +1,4 @@
-import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
+import { UserBookEntity } from './../../../infrastructure/persistence/typeorm/entities/user-book.entity';
 
 export const mapUserBookToResponse = (userBook: UserBookEntity) => {
   return {
