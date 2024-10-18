@@ -1,5 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
+const isProduction = process.env.NODE_ENV === 'production';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -12,12 +13,14 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [`${__dirname}/migrations/*.{ts,js}`],
   entities: [`${__dirname}/entities/*.{ts,js}`],
   migrationsRun: true,
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  ssl: isProduction ? true : false,
+  extra: isProduction
+    ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {},
 };
 
 export default new DataSource(dataSourceOptions);

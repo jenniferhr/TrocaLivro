@@ -9,11 +9,11 @@ services:
     networks:
       - trocalivro-network
     environment:
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=trocalivro-db
       - DB_PORT=5432
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_NAME=trocalivro-db
     depends_on:
       - trocalivro-db
     volumes:
@@ -24,7 +24,7 @@ services:
     image: postgres:16
     container_name: trocalivro-db
     environment:
-      POSTGRES_DB: trocalivro_db
+      POSTGRES_DB: trocalivro-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
