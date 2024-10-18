@@ -12,6 +12,12 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [`${__dirname}/migrations/*.{ts,js}`],
   entities: [`${__dirname}/entities/*.{ts,js}`],
   migrationsRun: true,
+  ssl: true,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 };
 
 export default new DataSource(dataSourceOptions);
