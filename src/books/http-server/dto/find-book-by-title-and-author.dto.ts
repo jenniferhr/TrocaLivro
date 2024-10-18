@@ -4,6 +4,7 @@ import { IsNotEmpty, IsString, Length } from 'class-validator';
 export class FindBookByTitleAndAuthorDto {
   @ApiProperty({
     description: 'The title of the book.',
+    example: 'The Book of Philosophy',
     type: String,
     minLength: 1,
     maxLength: 255,
@@ -16,6 +17,7 @@ export class FindBookByTitleAndAuthorDto {
 
   @ApiProperty({
     description: 'The author of the book.',
+    example: 'Maria Smith',
     type: String,
     minLength: 1,
     maxLength: 255,

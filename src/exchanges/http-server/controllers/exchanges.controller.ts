@@ -33,7 +33,7 @@ export class ExchangesController {
   @ApiOperation({ summary: 'Create a new exchange request' })
   @ApiCreatedResponse({
     description: 'Exchange request created successfully.',
-    type: CreateExchangeDto,
+    type: ExchangeEntity,
   })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiNotFoundResponse({

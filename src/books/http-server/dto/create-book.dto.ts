@@ -5,6 +5,7 @@ export class CreateBookDto {
   @ApiProperty({
     description: 'The title of the book.',
     type: String,
+    example: 'The Book of Philosophy',
     minLength: 1,
     maxLength: 255,
     required: true,
@@ -16,6 +17,7 @@ export class CreateBookDto {
 
   @ApiProperty({
     description: 'The author of the book.',
+    example: 'Maria Smith',
     type: String,
     minLength: 1,
     maxLength: 255,
