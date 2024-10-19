@@ -36,10 +36,32 @@ This project is built using **Hexagonal Architecture**, ensuring clean separatio
 - **Jest**: Unit and integration testing
 
 ## 🚀 Getting Started
+### Clone the repository
+```
+git clone <repository-url>
+```
+
+### Rename the environment file
+Rename the .env.local file to .env:
+```
+mv .env.local .env
+```
+
+### Install dependencies
+Navigate to the project directory and install the necessary packages:
+```
+npm install
+```
+
+### Start the development server
+Run the API in development mode:
+```
+npm run start:dev
+```
 
 ## 📜 API Documentation
+The project documentation can be accessed in the `/swagger` endpoint, both locally and in production.
 
-## 🛠️ Development To-do List
 
 ## 🧑‍🤝‍🧑 Contributing
 Feel free to fork this repository and submit pull requests to improve the platform! Whether it’s fixing bugs, adding new features, or improving documentation, all contributions are welcome. ✨
