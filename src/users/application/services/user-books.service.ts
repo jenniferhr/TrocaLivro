@@ -83,10 +83,12 @@ export class UserBooksService {
       query = query.andWhere('book.id = :bookId', { bookId });
     }
     if (title) {
-      query = query.andWhere('book.title LIKE :title', { title: `%${title}%` });
+      query = query.andWhere('book.title ILIKE :title', {
+        title: `%${title}%`,
+      });
     }
     if (author) {
-      query = query.andWhere('book.author LIKE :author', {
+      query = query.andWhere('book.author ILIKE :author', {
         author: `%${author}%`,
       });
     }
