@@ -29,6 +29,7 @@ import {
 } from '@nestjs/swagger';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
 import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
+import { FindUserBooksByCriteriaDto } from '../dto/find-user-books-by-criteria.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -152,39 +153,21 @@ export class UsersController {
     );
   }
 
-  @Get(':userId/books')
+  @Get('books/criteria')
   @ApiOperation({
-    summary: 'Get all books owned by a user',
-    description: 'Retrieve a list of books owned by a specific user.',
+    summary: 'Find books owned by users based on different criteria',
+    description:
+      'Retrieve a list of books owned by users based on a list of different criteria. If no criteria is passed, a list of all user books saved is returned.',
   })
-  @ApiParam({ name: 'userId', description: 'The ID of the user' })
   @ApiOkResponse({
     description: 'Books retrieved successfully.',
     type: UserBookEntity,
     isArray: true,
   })
-  @ApiNotFoundResponse({ description: 'User not found.' })
-  async findAllUserBooks(@Param('userId') userId: string) {
-    return this.userBooksService.findAllByUserId(+userId);
-  }
-
-  @Get(':userId/books')
-  @ApiOperation({
-    summary: 'Get a specific book owned by a user',
-    description: 'Retrieve details of a specific book owned by the user.',
-  })
-  @ApiParam({ name: 'userId', description: 'The ID of the user' })
-  @ApiParam({ name: 'bookId', description: 'The ID of the book' })
-  @ApiOkResponse({
-    description: 'Book details retrieved successfully.',
-    type: UserBookEntity,
-  })
-  @ApiNotFoundResponse({ description: 'Book or user not found.' })
-  async findOneUserBook(
-    @Param('userId') userId: string,
-    @Query('bookId') bookId: string,
+  async findUserBooksByCriteria(
+    @Query() findByCriteriaDto: FindUserBooksByCriteriaDto,
   ) {
-    return this.userBooksService.findOnebyUserandBookId(+userId, +bookId);
+    return this.userBooksService.findByCriteria(findByCriteriaDto);
   }
 
   @Get('books/:userBookId')
