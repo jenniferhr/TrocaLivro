@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { mapUserBookToResponse } from '../utils/user-book-response.mapper';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
 import { BookEntity } from 'src/infrastructure/persistence/typeorm/entities/book.entity';
+import { FindUserBooksByCriteriaDto } from 'src/users/http-server/dto/find-user-books-by-criteria.dto';
 
 @Injectable()
 export class UserBooksService {
@@ -96,6 +97,39 @@ export class UserBooksService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async findByCriteria(findByCriteriaDto: FindUserBooksByCriteriaDto) {
+    const { userId, bookId, title, author, condition, available } =
+      findByCriteriaDto;
+
+    let query = this.userBookRepository
+      .createQueryBuilder('userBook')
+      .leftJoinAndSelect('userBook.user', 'user')
+      .leftJoinAndSelect('userBook.book', 'book');
+
+    if (userId) {
+      query = query.andWhere('user.id = :userId', { userId });
+    }
+    if (bookId) {
+      query = query.andWhere('book.id = :bookId', { bookId });
+    }
+    if (title) {
+      query = query.andWhere('book.title LIKE :title', { title: `%${title}%` });
+    }
+    if (author) {
+      query = query.andWhere('book.author LIKE :author', {
+        author: `%${author}%`,
+      });
+    }
+    if (condition) {
+      query = query.andWhere('userBook.condition = :condition', { condition });
+    }
+    if (available) {
+      query = query.andWhere('userBook.available = :available', { available });
+    }
+
+    return await query.getMany();
   }
 
   async findOnebyUserBookId(userBookId: string) {

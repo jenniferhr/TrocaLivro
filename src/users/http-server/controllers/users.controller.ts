@@ -29,6 +29,7 @@ import {
 } from '@nestjs/swagger';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
 import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
+import { FindUserBooksByCriteriaDto } from '../dto/find-user-books-by-criteria.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -185,6 +186,23 @@ export class UsersController {
     @Query('bookId') bookId: string,
   ) {
     return this.userBooksService.findOnebyUserandBookId(+userId, +bookId);
+  }
+
+  @Get('books/criteria')
+  @ApiOperation({
+    summary: 'Find books owned by users based on different criteria',
+    description:
+      'Retrieve a list of books owned by users based on a list of different criteria.',
+  })
+  @ApiOkResponse({
+    description: 'Books retrieved successfully.',
+    type: UserBookEntity,
+    isArray: true,
+  })
+  async findUserBooksByCriteria(
+    @Query() findByCriteriaDto: FindUserBooksByCriteriaDto,
+  ) {
+    return this.userBooksService.findByCriteria(findByCriteriaDto);
   }
 
   @Get('books/:userBookId')
