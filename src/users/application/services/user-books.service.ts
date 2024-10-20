@@ -67,38 +67,6 @@ export class UserBooksService {
     }
   }
 
-  async findAllByUserId(userId: number) {
-    try {
-      const userBooks = await this.userBookRepository.find({
-        where: {
-          user: { id: userId },
-        },
-        relations: ['user', 'book'],
-      });
-      return userBooks.map((userBook) => mapUserBookToResponse(userBook));
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async findOnebyUserandBookId(userId: number, bookId: number) {
-    try {
-      const userBook = await this.userBookRepository.findOne({
-        where: {
-          user: { id: userId },
-          book: { id: bookId },
-        },
-        relations: ['user', 'book'],
-      });
-      if (!userBook) {
-        throw new NotFoundException('This user does not have this book.');
-      }
-      return mapUserBookToResponse(userBook)[0];
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async findByCriteria(findByCriteriaDto: FindUserBooksByCriteriaDto) {
     const { userId, bookId, title, author, condition, available } =
       findByCriteriaDto;

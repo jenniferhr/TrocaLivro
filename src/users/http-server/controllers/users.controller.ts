@@ -153,46 +153,11 @@ export class UsersController {
     );
   }
 
-  @Get(':userId/books')
-  @ApiOperation({
-    summary: 'Get all books owned by a user',
-    description: 'Retrieve a list of books owned by a specific user.',
-  })
-  @ApiParam({ name: 'userId', description: 'The ID of the user' })
-  @ApiOkResponse({
-    description: 'Books retrieved successfully.',
-    type: UserBookEntity,
-    isArray: true,
-  })
-  @ApiNotFoundResponse({ description: 'User not found.' })
-  async findAllUserBooks(@Param('userId') userId: string) {
-    return this.userBooksService.findAllByUserId(+userId);
-  }
-
-  @Get(':userId/books')
-  @ApiOperation({
-    summary: 'Get a specific book owned by a user',
-    description: 'Retrieve details of a specific book owned by the user.',
-  })
-  @ApiParam({ name: 'userId', description: 'The ID of the user' })
-  @ApiParam({ name: 'bookId', description: 'The ID of the book' })
-  @ApiOkResponse({
-    description: 'Book details retrieved successfully.',
-    type: UserBookEntity,
-  })
-  @ApiNotFoundResponse({ description: 'Book or user not found.' })
-  async findOneUserBook(
-    @Param('userId') userId: string,
-    @Query('bookId') bookId: string,
-  ) {
-    return this.userBooksService.findOnebyUserandBookId(+userId, +bookId);
-  }
-
   @Get('books/criteria')
   @ApiOperation({
     summary: 'Find books owned by users based on different criteria',
     description:
-      'Retrieve a list of books owned by users based on a list of different criteria.',
+      'Retrieve a list of books owned by users based on a list of different criteria. If no criteria is passed, a list of all user books saved is returned.',
   })
   @ApiOkResponse({
     description: 'Books retrieved successfully.',
