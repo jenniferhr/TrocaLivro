@@ -99,7 +99,11 @@ export class UserBooksService {
       query = query.andWhere('userBook.available = :available', { available });
     }
 
-    return await query.getMany();
+    try {
+      return await query.getMany();
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOnebyUserBookId(userBookId: string) {
