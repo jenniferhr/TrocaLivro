@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserBookEntity } from 'src/infrastructure/persistence/typeorm/entities/user-book.entity';
 import { BookAvailabilityEnum } from 'src/books/domain/enums/book-availability.enum';
+import { FindExchangesByCriteriaDto } from 'src/exchanges/http-server/dto/find-exchanges-by-criteria.dto';
 
 @Injectable()
 export class ExchangesService {
@@ -21,7 +22,6 @@ export class ExchangesService {
   ) {}
 
   async createExchangeRequest(createExchangeDto: CreateExchangeDto) {
-    // TODO: refactor to turn these initial validations into auxiliary functions
     const { offeredUserBookId, requestedUserBookId } = createExchangeDto;
 
     if (offeredUserBookId === requestedUserBookId) {
@@ -30,18 +30,10 @@ export class ExchangesService {
       );
     }
 
-    const offeredUserBook = await this.userBookRepository.findOne({
-      where: { id: offeredUserBookId },
-      relations: ['user', 'book'],
-    });
-    const requestedUserBook = await this.userBookRepository.findOne({
-      where: { id: requestedUserBookId },
-      relations: ['user', 'book'],
-    });
-
-    if (!offeredUserBook || !requestedUserBook) {
-      throw new NotFoundException('One of the userBooks was not found.');
-    }
+    const offeredUserBook =
+      await this.validateAndFetchAvailableUserBook(offeredUserBookId);
+    const requestedUserBook =
+      await this.validateAndFetchAvailableUserBook(requestedUserBookId);
 
     if (offeredUserBook.user.id === requestedUserBook.user.id) {
       throw new BadRequestException(
@@ -49,25 +41,7 @@ export class ExchangesService {
       );
     }
 
-    if (
-      offeredUserBook.available !== BookAvailabilityEnum.AVAILABLE ||
-      requestedUserBook.available !== BookAvailabilityEnum.AVAILABLE
-    ) {
-      throw new BadRequestException('Both books should be available.');
-    }
-
-    const existingExchange = await this.exchangeRepository.findOne({
-      where: {
-        offeredUserBook,
-        requestedUserBook,
-      },
-    });
-
-    if (existingExchange) {
-      throw new BadRequestException(
-        'An exchange between the two books already exists.',
-      );
-    }
+    await this.ensureNoExistingExchange(offeredUserBook, requestedUserBook);
 
     const newExchange = this.exchangeRepository.create({
       offeredUserBook,
@@ -80,20 +54,24 @@ export class ExchangesService {
     return newExchange;
   }
 
-  async findAllExchanges() {
-    try {
-      const exchanges = await this.exchangeRepository.find({
-        relations: [
-          'offeredUserBook',
-          'offeredUserBook.user',
-          'offeredUserBook.book',
-          'requestedUserBook',
-          'requestedUserBook.user',
-          'requestedUserBook.book',
-        ],
-      });
+  async findByCriteria(findByCriteriaDto: FindExchangesByCriteriaDto) {
+    const { status } = findByCriteriaDto;
 
-      return exchanges;
+    let query = this.exchangeRepository
+      .createQueryBuilder('exchange')
+      .leftJoinAndSelect('exchange.offeredUserBook', 'offeredUserBook')
+      .leftJoinAndSelect('offeredUserBook.user', 'offeredUser')
+      .leftJoinAndSelect('offeredUserBook.book', 'offeredBook')
+      .leftJoinAndSelect('exchange.requestedUserBook', 'requestedUserBook')
+      .leftJoinAndSelect('requestedUserBook.user', 'requestedUser')
+      .leftJoinAndSelect('requestedUserBook.book', 'requestedBook');
+
+    if (status) {
+      query = query.andWhere('exchange.status = :status', { status });
+    }
+
+    try {
+      return await query.getMany();
     } catch (error) {
       throw error;
     }
@@ -142,6 +120,53 @@ export class ExchangesService {
       const updatedExchange = await this.exchangeRepository.save(exchange);
 
       return updatedExchange;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async validateAndFetchAvailableUserBook(userBookId: string) {
+    const userBook = await this.userBookRepository.findOne({
+      where: { id: userBookId },
+      relations: ['user', 'book'],
+    });
+
+    if (!userBook) {
+      throw new NotFoundException(`UserBook with ID ${userBookId} not found.`);
+    }
+
+    if (userBook.available !== BookAvailabilityEnum.AVAILABLE) {
+      throw new BadRequestException(
+        `UserBook with ID ${userBookId} is not available.`,
+      );
+    }
+
+    return userBook;
+  }
+
+  async ensureNoExistingExchange(
+    offeredUserBook: UserBookEntity,
+    requestedUserBook: UserBookEntity,
+  ) {
+    try {
+      const existingExchange = await this.exchangeRepository.findOne({
+        where: [
+          {
+            offeredUserBook: { id: offeredUserBook.id },
+            requestedUserBook: { id: requestedUserBook.id },
+          },
+          {
+            offeredUserBook: { id: requestedUserBook.id },
+            requestedUserBook: { id: offeredUserBook.id },
+          },
+        ],
+      });
+
+      if (existingExchange) {
+        throw new BadRequestException(
+          'An exchange between the two books already exists.',
+        );
+      }
     } catch (error) {
       throw error;
     }

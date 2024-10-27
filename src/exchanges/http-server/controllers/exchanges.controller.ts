@@ -23,6 +23,7 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { ExchangeEntity } from 'src/infrastructure/persistence/typeorm/entities/exchange.entity';
+import { FindExchangesByCriteriaDto } from '../dto/find-exchanges-by-criteria.dto';
 
 @ApiTags('exchanges')
 @Controller('exchanges')
@@ -48,14 +49,18 @@ export class ExchangesController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Retrieve all exchange requests' })
+  @ApiOperation({
+    summary: 'Retrieve exchange requests based on different criteria',
+    description:
+      'Retrieve a list of exchanges based on a list of different criteria. If no criteria is passed, a list of all exchanges is returned.',
+  })
   @ApiOkResponse({
     description: 'List of exchange requests retrieved successfully.',
     type: ExchangeEntity,
     isArray: true,
   })
-  findAll() {
-    return this.exchangesService.findAllExchanges();
+  findByCriteria(@Query() findByCriteriaDto: FindExchangesByCriteriaDto) {
+    return this.exchangesService.findByCriteria(findByCriteriaDto);
   }
 
   @Get(':exchangeId')
