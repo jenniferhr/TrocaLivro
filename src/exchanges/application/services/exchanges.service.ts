@@ -24,8 +24,6 @@ export class ExchangesService {
   async createExchangeRequest(createExchangeDto: CreateExchangeDto) {
     const { offeredUserBookId, requestedUserBookId } = createExchangeDto;
 
-    console.log('estamos no service, createExchangeRequest');
-
     if (offeredUserBookId === requestedUserBookId) {
       throw new BadRequestException(
         'The request and offered books should not be the same book owned by the same person.',
@@ -150,7 +148,6 @@ export class ExchangesService {
     offeredUserBook: UserBookEntity,
     requestedUserBook: UserBookEntity,
   ) {
-    console.log('caiu no ensure ensureNoExistingExchange');
     try {
       const existingExchange = await this.exchangeRepository.findOne({
         where: [
@@ -164,8 +161,6 @@ export class ExchangesService {
           },
         ],
       });
-
-      console.log('busca da exchange', existingExchange);
 
       if (existingExchange) {
         throw new BadRequestException(
