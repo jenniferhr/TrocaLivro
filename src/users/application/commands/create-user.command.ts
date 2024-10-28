@@ -4,5 +4,6 @@ export class CreateUserCommand {
     public readonly email: string,
     public readonly phoneNumber: string,
     public readonly address: string,
+    public readonly password: string,
   ) {}
 }

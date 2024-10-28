@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateUserDto } from '../../http-server/dto/update-user.dto';
@@ -8,16 +9,20 @@ import { CreateUserCommand } from '../commands/create-user.command';
 import { UserEntity } from 'src/infrastructure/persistence/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
+  saltOrRounds: number = 10;
+
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async create(createUserCommand: CreateUserCommand) {
-    const { fullName, email, phoneNumber, address } = createUserCommand;
+    const { fullName, email, phoneNumber, address, password } =
+      createUserCommand;
 
     const existingUser = await this.userRepository.findOne({
       where: { email },
@@ -33,11 +38,17 @@ export class UsersService {
     user.phoneNumber = phoneNumber;
     user.address = address;
 
+    const hashedPassword = await bcrypt.hash(password, this.saltOrRounds);
+
+    user.password = hashedPassword;
+
     try {
       const savedUser = await this.userRepository.save(user);
+      delete savedUser.password;
+
       return savedUser;
     } catch (err) {
-      throw err;
+      throw new InternalServerErrorException('Error saving new user');
     }
   }
 

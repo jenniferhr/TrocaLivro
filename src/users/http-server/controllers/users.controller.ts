@@ -54,12 +54,13 @@ export class UsersController {
   })
   @ApiBadRequestResponse({ description: 'Invalid input data.' })
   @ApiConflictResponse({ description: 'User with this email already exists.' })
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+  async register(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
     const createUserCommand = new CreateUserCommand(
       createUserDto.fullName,
       createUserDto.email,
       createUserDto.phoneNumber,
       createUserDto.address,
+      createUserDto.password,
     );
 
     return await this.usersService.create(createUserCommand);

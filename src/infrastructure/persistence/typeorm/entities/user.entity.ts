@@ -51,4 +51,13 @@ export class UserEntity {
     nullable: false,
   })
   address: string;
+
+  @ApiProperty({
+    description: 'Password of the user',
+  })
+  @Column({
+    name: 'password',
+    nullable: false,
+  })
+  password: string;
 }
