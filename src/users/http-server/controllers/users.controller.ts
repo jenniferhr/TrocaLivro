@@ -92,7 +92,7 @@ export class UsersController {
   })
   @ApiNotFoundResponse({ description: 'User not found.' })
   async findOne(@Param('id') id: string): Promise<UserEntity> {
-    return this.usersService.findOne(+id);
+    return this.usersService.findById(+id);
   }
 
   @Patch(':id')

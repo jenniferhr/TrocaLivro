@@ -60,10 +60,23 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number) {
+  async findById(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found.`);
+    }
+    return user;
+  }
+
+  async findFullUserByEmail(email: string) {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email })
+      .getOne();
+
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found.`);
     }
     return user;
   }
