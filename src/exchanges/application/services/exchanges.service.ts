@@ -43,7 +43,7 @@ export class ExchangesService {
 
     await this.ensureNoExistingExchange(offeredUserBook, requestedUserBook);
 
-    const newExchange = this.exchangeRepository.create({
+    const newExchange = await this.exchangeRepository.create({
       offeredUserBook,
       requestedUserBook,
       status: ExchangeStatusEnum.PENDING,
@@ -57,7 +57,7 @@ export class ExchangesService {
   async findByCriteria(findByCriteriaDto: FindExchangesByCriteriaDto) {
     const { status } = findByCriteriaDto;
 
-    let query = this.exchangeRepository
+    let query = await this.exchangeRepository
       .createQueryBuilder('exchange')
       .leftJoinAndSelect('exchange.offeredUserBook', 'offeredUserBook')
       .leftJoinAndSelect('offeredUserBook.user', 'offeredUser')

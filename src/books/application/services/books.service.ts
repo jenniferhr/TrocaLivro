@@ -39,7 +39,7 @@ export class BooksService {
   }
 
   async findAll() {
-    return this.bookRepository.find({
+    return await this.bookRepository.find({
       order: {
         title: 'ASC',
       },
@@ -47,7 +47,11 @@ export class BooksService {
   }
 
   async findById(id: number) {
-    return this.bookRepository.findOne({ where: { id } });
+    const book = await this.bookRepository.findOne({ where: { id } });
+    if (!book) {
+      throw new NotFoundException(`Book with ID ${id} not found.`);
+    }
+    return book;
   }
 
   async findByTitleAndAuthor(title: string, author: string) {

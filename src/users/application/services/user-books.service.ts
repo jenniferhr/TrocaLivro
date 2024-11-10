@@ -71,7 +71,7 @@ export class UserBooksService {
     const { userId, bookId, title, author, condition, available } =
       findByCriteriaDto;
 
-    let query = this.userBookRepository
+    let query = await this.userBookRepository
       .createQueryBuilder('userBook')
       .leftJoinAndSelect('userBook.user', 'user')
       .leftJoinAndSelect('userBook.book', 'book');
@@ -112,6 +112,11 @@ export class UserBooksService {
         where: { id: userBookId },
         relations: ['user', 'book'],
       });
+      if (!userBook) {
+        throw new NotFoundException(
+          `User-book with ID ${userBookId} not found.`,
+        );
+      }
       return mapUserBookToResponse(userBook);
     } catch (error) {
       throw error;

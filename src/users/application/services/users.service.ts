@@ -53,7 +53,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.userRepository.find({
+    return await this.userRepository.find({
       order: {
         id: 'ASC',
       },

@@ -39,6 +39,105 @@ export class UsersController {
     private readonly userBooksService: UserBooksService,
   ) {}
 
+  // UserBooks
+  @Post(':userId/books')
+  @ApiOperation({
+    summary: 'Add a book to a user',
+    description: "Add a book to the user's collection.",
+  })
+  @ApiParam({ name: 'userId', description: 'The ID of the user' })
+  @ApiBody({
+    description: 'Details of the book to be added',
+    type: CreateUserBookDto,
+  })
+  @ApiCreatedResponse({
+    description: 'Book added to the user successfully.',
+    type: UserBookEntity,
+  })
+  @ApiConflictResponse({ description: 'User already owns this book.' })
+  @ApiNotFoundResponse({ description: 'Book or user not found.' })
+  @ApiBadRequestResponse({ description: 'Invalid input data.' })
+  async createUserBook(
+    @Param('userId') userId: string,
+    @Body() createUserBookDto: CreateUserBookDto,
+  ) {
+    return await this.userBooksService.createUserBook(
+      +userId,
+      createUserBookDto,
+    );
+  }
+
+  @Get('books')
+  @ApiOperation({
+    summary: 'Find books owned by users based on different criteria',
+    description:
+      'Retrieve a list of books owned by users based on a list of different criteria. If no criteria is passed, a list of all user books saved is returned.',
+  })
+  @ApiOkResponse({
+    description: 'Books retrieved successfully.',
+    type: UserBookEntity,
+    isArray: true,
+  })
+  async findUserBooksByCriteria(
+    @Query() findByCriteriaDto: FindUserBooksByCriteriaDto,
+  ) {
+    return this.userBooksService.findByCriteria(findByCriteriaDto);
+  }
+
+  @Get('books/:userBookId')
+  @ApiOperation({
+    summary: "Get details of a user's book by its ID",
+    description:
+      'Retrieve details of a specific book owned by a user using its unique ID.',
+  })
+  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
+  @ApiOkResponse({
+    description: 'Book details retrieved successfully.',
+    type: UserBookEntity,
+  })
+  @ApiNotFoundResponse({ description: 'Book not found.' })
+  async findByUserBookId(
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
+  ) {
+    return this.userBooksService.findOnebyUserBookId(userBookId);
+  }
+
+  @Patch('books/:userBookId')
+  @ApiOperation({
+    summary: "Update a user's book details",
+    description: 'Update the details of a specific book owned by the user.',
+  })
+  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
+  @ApiOkResponse({
+    description: "User's book updated successfully.",
+    type: UserBookEntity,
+  })
+  @ApiBadRequestResponse({ description: 'Invalid input data.' })
+  @ApiNotFoundResponse({ description: 'Book not found.' })
+  async updateUserBook(
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
+    @Body() updateUserBookDto: UpdateUserBookDto,
+  ) {
+    return this.userBooksService.updateUserBook(userBookId, updateUserBookDto);
+  }
+
+  @Delete('books/:userBookId')
+  @ApiOperation({
+    summary: "Remove a book from a user's collection",
+    description: "Remove a book from a user's possession.",
+  })
+  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
+  @ApiOkResponse({
+    description: "Book removed from the user's collection successfully.",
+  })
+  @ApiNotFoundResponse({ description: 'Book not found.' })
+  async removeUserBook(
+    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
+  ) {
+    return this.userBooksService.removeUserBook(userBookId);
+  }
+
+  // Users
   @Post()
   @ApiOperation({
     summary: 'Create a new user',
@@ -124,103 +223,5 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'User not found.' })
   async remove(@Param('id') id: string): Promise<{ message }> {
     return this.usersService.remove(+id);
-  }
-
-  // UserBooks
-  @Post(':userId/books')
-  @ApiOperation({
-    summary: 'Add a book to a user',
-    description: "Add a book to the user's collection.",
-  })
-  @ApiParam({ name: 'userId', description: 'The ID of the user' })
-  @ApiBody({
-    description: 'Details of the book to be added',
-    type: CreateUserBookDto,
-  })
-  @ApiCreatedResponse({
-    description: 'Book added to the user successfully.',
-    type: UserBookEntity,
-  })
-  @ApiConflictResponse({ description: 'User already owns this book.' })
-  @ApiNotFoundResponse({ description: 'Book or user not found.' })
-  @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  async createUserBook(
-    @Param('userId') userId: string,
-    @Body() createUserBookDto: CreateUserBookDto,
-  ) {
-    return await this.userBooksService.createUserBook(
-      +userId,
-      createUserBookDto,
-    );
-  }
-
-  @Get('books/criteria')
-  @ApiOperation({
-    summary: 'Find books owned by users based on different criteria',
-    description:
-      'Retrieve a list of books owned by users based on a list of different criteria. If no criteria is passed, a list of all user books saved is returned.',
-  })
-  @ApiOkResponse({
-    description: 'Books retrieved successfully.',
-    type: UserBookEntity,
-    isArray: true,
-  })
-  async findUserBooksByCriteria(
-    @Query() findByCriteriaDto: FindUserBooksByCriteriaDto,
-  ) {
-    return this.userBooksService.findByCriteria(findByCriteriaDto);
-  }
-
-  @Get('books/:userBookId')
-  @ApiOperation({
-    summary: "Get details of a user's book by its ID",
-    description:
-      'Retrieve details of a specific book owned by a user using its unique ID.',
-  })
-  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
-  @ApiOkResponse({
-    description: 'Book details retrieved successfully.',
-    type: UserBookEntity,
-  })
-  @ApiNotFoundResponse({ description: 'Book not found.' })
-  async findByUserBookId(
-    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
-  ) {
-    return this.userBooksService.findOnebyUserBookId(userBookId);
-  }
-
-  @Patch('books/:userBookId')
-  @ApiOperation({
-    summary: "Update a user's book details",
-    description: 'Update the details of a specific book owned by the user.',
-  })
-  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
-  @ApiOkResponse({
-    description: "User's book updated successfully.",
-    type: UserBookEntity,
-  })
-  @ApiBadRequestResponse({ description: 'Invalid input data.' })
-  @ApiNotFoundResponse({ description: 'Book not found.' })
-  async updateUserBook(
-    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
-    @Body() updateUserBookDto: UpdateUserBookDto,
-  ) {
-    return this.userBooksService.updateUserBook(userBookId, updateUserBookDto);
-  }
-
-  @Delete('books/:userBookId')
-  @ApiOperation({
-    summary: "Remove a book from a user's collection",
-    description: "Remove a book from a user's possession.",
-  })
-  @ApiParam({ name: 'userBookId', description: "The ID of the user's book" })
-  @ApiOkResponse({
-    description: "Book removed from the user's collection successfully.",
-  })
-  @ApiNotFoundResponse({ description: 'Book not found.' })
-  async removeUserBook(
-    @Param('userBookId', new ParseUUIDPipe()) userBookId: string,
-  ) {
-    return this.userBooksService.removeUserBook(userBookId);
   }
 }
